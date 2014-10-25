@@ -131,7 +131,7 @@ class Game:
         if self.is_terminal(depth, turn, grid):
             return self.evaluate(turn, grid)
 
-        for move, new_grid in get_legal_moves(turn, grid):
+        for move, new_grid in self.get_legal_moves(turn, grid):
             if turn == maximizer or turn == (maximizer - 1)%4:
                 new_val = -1 * find_move(depth - 1, (turn + 1)%4, new_grid, -beta, -alpha, False, maximizer)
             
