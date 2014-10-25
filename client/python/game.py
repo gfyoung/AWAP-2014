@@ -96,7 +96,7 @@ class Game:
         # Bug Protection
         assert self.can_place(new_block, ref_point, turn, grid), "Illegal Block Move"
 
-        new_grid = grid.copy()
+        new_grid = grid[:]
 
         for offset in new_block:
             occupied_point = ref_point + offset
