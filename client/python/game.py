@@ -54,6 +54,7 @@ class Game:
     
     def get_legal_moves(self, turn=None, grid=None, yield_first=False):
         N = self.dimension
+        
         no_legal_moves = True
 
         if turn is not None:
@@ -250,10 +251,7 @@ class Game:
                 self.blocks[index] = [Point(offset) for offset in block]
 
         if (('move' in args) and (args['move'] == 1)):
-            send_command(" ".join(str(x) for x in self.find_move()))
-
-        if self.is_my_turn():
-            util.run_search_function(self, util.memoize(self.find_move))
+            send_command(" ".join(str(x) for x in util.run_search_function(self, util.memoize(self.find_move)))
 
     def is_my_turn(self):
         return self.turn == self.my_number
