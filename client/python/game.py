@@ -7,6 +7,7 @@ print "May the Trolling Begin!"
 
 import sys
 import json
+import util
 
 # Simple point class that supports equality, addition, and rotations
 class Point:
@@ -48,6 +49,7 @@ class Game:
 
     def __init__(self, args):
         self.interpret_data(args)
+        util.run_search_fn(util.memoize(self.find_move))
 
     # find_move is your place to start. When it's your turn,
     # find_move will be called and you must return where to go.
@@ -97,7 +99,7 @@ class Game:
     def is_terminal(self, depth, turn=self.turn, grid=self.grid):
         return depth <= 0 or self.is_game_over(turn, grid)
         
-    def evaluate(self, turn=self.turn, grid=self.grid): #In progress
+    def evaluate(self, turn=self.turn, grid=self.grid): #in progress
         N = self.dimension
         
         score = 0
