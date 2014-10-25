@@ -102,7 +102,7 @@ class Game:
             occupied_point = ref_point + offset
             new_grid[occupied_point.y][occupied_point.x] = turn    
         
-        return new_grid
+        return move, new_grid
  
     def is_game_over(self, turn=None, grid=None):
         if turn is None:
