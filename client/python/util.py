@@ -6,7 +6,7 @@ class ContinuousThread(Thread):
         self._timeout = timeout
         self._target = target
         self._args = args
-        self._kwargs = kwargsw
+        self._kwargs = kwargs
         Thread.__init__(self, args=args, kwargs=kwargs, group=group, target=target, name=name)
 
     def run(self):
