@@ -3,6 +3,7 @@ from time import time
 
 class ContinuousThread(Thread):
     def __init__(self, game, timeout=10, target=None, group=None, name=None, args=(), kwargs={}):
+        self.game = game
         self._timeout = timeout
         self._target = target
         self._args = args
@@ -25,7 +26,7 @@ class ContinuousThread(Thread):
             return self._most_recent_val
             
         except AttributeError:
-            first_legal_move = game.get_legal_moves(yield_first=True)
+            first_legal_move = self.game.get_legal_moves(yield_first=True)
             return first_legal_move
     
 def run_search_function(game, search_fn, timeout=10):
