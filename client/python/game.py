@@ -125,10 +125,10 @@ class Game:
         return depth <= 0 or self.is_game_over(turn, grid)
         
     def evaluate(self, turn=None, grid=None):
-        if not turn:
+        if turn is None:
             turn = self.turn
 
-        if not grid:
+        if grid is None:
             grid = self.grid
             
         N = self.dimension
@@ -191,10 +191,10 @@ class Game:
 
     # Checks if a block can be placed at the given point
     def can_place(self, block, point, turn=None, grid=None):
-        if not turn:
+        if turn is None:
             turn = self.turn
 
-        if not grid:
+        if grid is None:
             grid = self.grid
             
         onAbsCorner = False
