@@ -97,7 +97,7 @@ class Game:
     def is_terminal(self, depth, turn=self.turn, grid=self.grid):
         return depth <= 0 or self.is_game_over(turn, grid)
         
-    def evaluate(self, turn=self.turn, grid=self.grid):
+    def evaluate(self, turn=self.turn, grid=self.grid): #In progress
         N = self.dimension
         
         score = 0
