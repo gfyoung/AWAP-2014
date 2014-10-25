@@ -55,7 +55,7 @@ class Game:
     def get_legal_moves(self, turn=self.turn, grid=self.grid, yield_first=False):
         N = self.dimension
         no_legal_moves = True
-        
+
         for index, block in enumerate(self.all_blocks[turn]):
             for i in xrange(0, N * N):
                 x = i / N
@@ -63,7 +63,7 @@ class Game:
 
                 for rotations in xrange(4):
                     new_block = self.rotate_block(block, rotations)
-                    
+
                     if self.can_place(new_block, Point(x, y)):
                         no_legal_moves = False
                         yield (index, rotations, x, y)
@@ -145,11 +145,7 @@ class Game:
             if alpha >= beta:
                 break
 
-        #For debugging
-        if top_level:
-            print 'ALPHA BETA considering MOVE ' + str(next_move) + ' with RATING: ' + str(alpha)
-            
-        return next_move if top_level else alpha       
+        return next_move if starting else alpha       
 
     # Checks if a block can be placed at the given point
     def can_place(self, block, point, turn=self.my_number, grid=self.grid):
