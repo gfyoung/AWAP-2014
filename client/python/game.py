@@ -57,10 +57,10 @@ class Game:
         
         no_legal_moves = True
 
-        if turn is None:
+        if turn is not None:
             turn = self.turn
 
-        if grid is None:
+        if grid is not None:
             grid = self.grid
             
         for index, block in enumerate(self.all_blocks[turn]):
@@ -84,10 +84,10 @@ class Game:
     def do_move(self, move, turn=None, grid=None):
         index, rotations, x, y = move
 
-        if turn is None:
+        if turn is not None:
             turn = self.turn
 
-        if grid is None:
+        if grid is not None:
             grid = self.grid
             
         new_block = self.rotate_block(self.all_blocks[turn][index], rotations)
@@ -105,10 +105,10 @@ class Game:
         return new_grid
  
     def is_game_over(self, turn=None, grid=None):
-        if turn is None:
+        if turn is not None:
             turn = self.turn
 
-        if grid is None:
+        if grid is not None:
             grid = self.grid
             
         moves_generator = self.get_legal_moves(turn, grid)
@@ -116,10 +116,10 @@ class Game:
         return not moves_generator.next()
     
     def is_terminal(self, depth, turn=None, grid=None):
-        if turn is None:
+        if turn is not None:
             turn = self.turn
 
-        if grid is None:
+        if grid is not None:
             grid = self.grid
             
         return depth <= 0 or self.is_game_over(turn, grid)
@@ -156,13 +156,13 @@ class Game:
         return score
         
     def find_move(self, depth, turn=None, grid=None, alpha=None, beta=None, starting=True, maximizer=None):
-        if turn is None:
+        if turn is not None:
             turn = self.turn
 
-        if grid is None:
+        if grid is not None:
             grid = self.grid
 
-        if maximizer is None:
+        if maximizer is not None:
             maximizer = self.turn
             
         if starting:
