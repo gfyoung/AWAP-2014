@@ -54,7 +54,7 @@ class Game:
     # find_move will be called and you must return where to go.
     # You must return a tuple (block index, # rotations, x, y)
     
-    def get_legal_moves(self, turn=self.turn, grid=self.grid):
+    def get_legal_moves(self, turn=self.turn, grid=self.grid, yield_first=False):
         N = self.dimension
         no_legal_moves = True
         
@@ -69,6 +69,9 @@ class Game:
                     if self.can_place(new_block, Point(x, y)):
                         no_legal_moves = False
                         yield (index, rotations, x, y)
+
+                        if yield_first:
+                            break
 
         if no_legal_moves:
             yield False
