@@ -98,8 +98,30 @@ class Game:
         return depth <= 0 or self.is_game_over(turn, grid)
         
     def evaluate(self, turn=self.turn, grid=self.grid):
-        raise NotImplementedError
-                
+        N = self.dimension
+        
+        score = 0
+        
+        for i in xrange(0, N * N):        
+            x = i / N
+            y = i % N
+        
+            multiplier = 3 if [x, y] in self.bonus_squares else 1
+            
+            if grid[x][y] == -1:
+                score += 0.5 * multiplier
+            
+            elif grid[x][y] == turn:
+                score += 1 * multiplier
+            
+            elif grid[x][y] != turn:
+                score += -1 * multiplier
+            
+            elif grid[x][y] == -2:
+                score += 0 * multiplier
+        
+        return score
+        
     def find_move(self, depth, turn=self.turn, grid=self.grid, alpha=None, beta=None, starting=True):
         assert depth >= 1, "Find Move Uses Alpha-Beta and Requires a Positive Depth"
         
@@ -177,7 +199,7 @@ class Game:
             self.grid = args['board']['grid']
             self.all_blocks = args['blocks']
             self.blocks = args['blocks'][self.my_number]
-            self.bonus_squares = args['board']['bonus_squares']
+            self.bonus_squares = set(args['board']['bonus_squares'])
 
             for index, block in enumerate(self.blocks):
                 self.blocks[index] = [Point(offset) for offset in block]
