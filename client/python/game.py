@@ -47,15 +47,21 @@ class Game:
 
     def __init__(self, args):
         self.interpret_data(args)
-
+    
     # find_move is your place to start. When it's your turn,
     # find_move will be called and you must return where to go.
     # You must return a tuple (block index, # rotations, x, y)
     
-    def get_legal_moves(self, turn=self.turn, grid=self.grid, yield_first=False):
+    def get_legal_moves(self, turn=None, grid=None, yield_first=False):
         N = self.dimension
         no_legal_moves = True
 
+        if turn is not None:
+            turn = self.turn
+
+        if grid is not None:
+            grid = self.grid
+            
         for index, block in enumerate(self.all_blocks[turn]):
             for i in xrange(0, N * N):
                 x = i / N
@@ -73,33 +79,57 @@ class Game:
 
         if no_legal_moves:
             yield False
-
-    def do_move(self, move, turn=self.turn, grid=self.grid):
+    
+    def do_move(self, move, turn=None, grid=None):
         index, rotations, x, y = move
-        
+
+        if turn is not None:
+            turn = self.turn
+
+        if grid is not None:
+            grid = self.grid
+            
         new_block = self.rotate_block(self.all_blocks[turn][index], rotations)
         ref_point = Point(x, y)
-        
+
         # Bug Protection
         assert self.can_place(new_block, ref_point, turn, grid), "Illegal Block Move"
-        
+
         new_grid = grid.copy()
-        
+
         for offset in new_block:
             occupied_point = ref_point + offset
             new_grid[occupied_point.y][occupied_point.x] = turn    
         
         return new_grid
  
-    def is_game_over(self, turn=self.turn, grid=self.grid):
+    def is_game_over(self, turn=None, grid=None):
+        if turn is not None:
+            turn = self.turn
+
+        if grid is not None:
+            grid = self.grid
+            
         moves_generator = self.get_legal_moves(turn, grid)
         
         return not moves_generator.next()
     
-    def is_terminal(self, depth, turn=self.turn, grid=self.grid):
+    def is_terminal(self, depth, turn=None, grid=None):
+        if turn is not None:
+            turn = self.turn
+
+        if grid is not None:
+            grid = self.grid
+            
         return depth <= 0 or self.is_game_over(turn, grid)
         
-    def evaluate(self, turn=self.turn, grid=self.grid): #in progress
+    def evaluate(self, turn=None, grid=None):
+        if not turn:
+            turn = self.turn
+
+        if not grid:
+            grid = self.grid
+            
         N = self.dimension
         
         score = 0
@@ -124,7 +154,16 @@ class Game:
         
         return score
         
-    def find_move(self, depth, turn=self.turn, grid=self.grid, alpha=None, beta=None, starting=True, maximizer=self.turn):       
+    def find_move(self, depth, turn=None, grid=None, alpha=None, beta=None, starting=True, maximizer=None):
+        if turn is not None:
+            turn = self.turn
+
+        if grid is not None:
+            grid = self.grid
+
+        if maximizer is not None:
+            maximizer = self.turn
+            
         if starting:
             alpha, beta = (-float('inf'), float('inf'))
 
@@ -148,7 +187,13 @@ class Game:
         return next_move if starting else alpha       
 
     # Checks if a block can be placed at the given point
-    def can_place(self, block, point, turn=self.my_number, grid=self.grid):
+    def can_place(self, block, point, turn=None, grid=None):
+        if not turn:
+            turn = self.turn
+
+        if not grid:
+            grid = self.grid
+            
         onAbsCorner = False
         onRelCorner = False
         N = self.dimension - 1
