@@ -138,7 +138,7 @@ class Game:
             x = i / N
             y = i % N
         
-            multiplier = 3 if [x, y] in self.bonus_squares else 1
+            multiplier = 3 if (x, y) in self.bonus_squares else 1
             
             if grid[x][y] == -1:
                 score += 0.5 * multiplier
@@ -244,7 +244,7 @@ class Game:
             self.grid = args['board']['grid']
             self.all_blocks = args['blocks']
             self.blocks = args['blocks'][self.my_number]
-            self.bonus_squares = set(args['board']['bonus_squares'])
+            self.bonus_squares = {tuple(coords) for coord in args['board']['bonus_squares']}
 
             for index, block in enumerate(self.blocks):
                 self.blocks[index] = [Point(offset) for offset in block]
