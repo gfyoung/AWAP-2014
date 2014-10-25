@@ -133,10 +133,10 @@ class Game:
 
         for move, new_grid in self.get_legal_moves(turn, grid):
             if turn == maximizer or turn == (maximizer - 1)%4:
-                new_val = -1 * find_move(depth - 1, (turn + 1)%4, new_grid, -beta, -alpha, False, maximizer)
+                new_val = -1 * self.find_move(depth - 1, (turn + 1)%4, new_grid, -beta, -alpha, False, maximizer)
             
             else:
-                new_val = find_move(depth - 1, (turn + 1)%4, new_grid, alpha, beta, False, maximizer)
+                new_val = self.find_move(depth - 1, (turn + 1)%4, new_grid, alpha, beta, False, maximizer)
             
             if new_val > alpha:
                 alpha = new_val
