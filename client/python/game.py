@@ -52,50 +52,108 @@ class Game:
     # find_move is your place to start. When it's your turn,
     # find_move will be called and you must return where to go.
     # You must return a tuple (block index, # rotations, x, y)
-    def find_move(self):
-        moves = []
+    
+    def get_legal_moves(self, turn=self.turn, grid=self.grid):
         N = self.dimension
-        for index, block in enumerate(self.blocks):
-            for i in range(0, N * N):
+        no_legal_moves = True
+        
+        for index, block in enumerate(self.all_blocks[turn]):
+            for i in xrange(0, N * N):
                 x = i / N
                 y = i % N
 
-                for rotations in range(0, 4):
+                for rotations in xrange(4):
                     new_block = self.rotate_block(block, rotations)
+                    
                     if self.can_place(new_block, Point(x, y)):
-                        return (index, rotations, x, y)
+                        no_legal_moves = False
+                        yield (index, rotations, x, y)
 
-        return (0, 0, 0, 0)
+        if no_legal_moves:
+            yield False
+
+    def do_move(self, move, turn=self.turn, grid=self.grid):
+        index, rotations, x, y = move
+        
+        new_block = self.rotate_block(self.all_blocks[turn][index], rotations)
+        ref_point = Point(x, y)
+        
+        # Bug Protection
+        assert self.can_place(new_block, ref_point, turn, grid), "Illegal Block Move"
+        
+        new_grid = grid.copy()
+        
+        for offset in new_block:
+            occupied_point = ref_point + offset
+            new_grid[occupied_point.y][occupied_point.x] = turn    
+        
+        return new_grid
+ 
+    def is_game_over(self, turn=self.turn, grid=self.grid):
+        moves_generator = self.get_legal_moves(turn, grid)
+        
+        return not moves_generator.next()
+    
+    def is_terminal(self, depth, turn=self.turn, grid=self.grid):
+        return depth <= 0 or self.is_game_over(turn, grid)
+        
+    def evaluate(self, turn=self.turn, grid=self.grid):
+        raise NotImplementedError
+                
+    def find_move(self, depth, turn=self.turn, grid=self.grid, alpha=None, beta=None, starting=True):
+        assert depth >= 1, "Find Move Uses Alpha-Beta and Requires a Positive Depth"
+        
+        if starting:
+            alpha, beta = (-float('inf'), float('inf'))
+
+        if self.is_terminal(depth, turn, grid):
+            return self.evaluate(turn, grid)
+      
+        for move, new_grid in get_legal_moves(turn, grid):
+            new_val = -1 * find_move(depth - 1, (turn + 1)%4, new_grid, -beta, -alpha, False)
+
+            if new_val > alpha:
+                alpha = new_val
+                next_move = move
+                
+            if alpha >= beta:
+                break
+
+        #For debugging
+        if top_level:
+            print 'ALPHA BETA considering MOVE ' + str(next_move) + ' with RATING: ' + str(alpha)
+            
+        return next_move if top_level else alpha       
 
     # Checks if a block can be placed at the given point
-    def can_place(self, block, point):
+    def can_place(self, block, point, turn=self.my_number, grid=self.grid):
         onAbsCorner = False
         onRelCorner = False
         N = self.dimension - 1
 
         corners = [Point(0, 0), Point(N, 0), Point(N, N), Point(0, N)]
-        corner = corners[self.my_number]
+        corner = corners[turn]
 
         for offset in block:
             p = point + offset
             x = p.x
             y = p.y
-            if (x > N or x < 0 or y > N or y < 0 or self.grid[x][y] != -1 or
-                (x > 0 and self.grid[x - 1][y] == self.my_number) or
-                (y > 0 and self.grid[x][y - 1] == self.my_number) or
-                (x < N and self.grid[x + 1][y] == self.my_number) or
-                (y < N and self.grid[x][y + 1] == self.my_number)
+            if (x > N or x < 0 or y > N or y < 0 or grid[x][y] != -1 or
+                (x > 0 and grid[x - 1][y] == turn) or
+                (y > 0 and grid[x][y - 1] == turn) or
+                (x < N and grid[x + 1][y] == turn) or
+                (y < N and grid[x][y + 1] == turn)
             ): return False
 
             onAbsCorner = onAbsCorner or (p == corner)
             onRelCorner = onRelCorner or (
-                (x > 0 and y > 0 and self.grid[x - 1][y - 1] == self.my_number) or
-                (x > 0 and y < N and self.grid[x - 1][y + 1] == self.my_number) or
-                (x < N and y > 0 and self.grid[x + 1][y - 1] == self.my_number) or
-                (x < N and y < N and self.grid[x + 1][y + 1] == self.my_number)
+                (x > 0 and y > 0 and grid[x - 1][y - 1] == turn) or
+                (x > 0 and y < N and grid[x - 1][y + 1] == turn) or
+                (x < N and y > 0 and grid[x + 1][y - 1] == turn) or
+                (x < N and y < N and grid[x + 1][y + 1] == turn)
             )
 
-        if self.grid[corner.x][corner.y] < 0 and not onAbsCorner: return False
+        if grid[corner.x][corner.y] < 0 and not onAbsCorner: return False
         if not onAbsCorner and not onRelCorner: return False
 
         return True
@@ -117,6 +175,7 @@ class Game:
             self.dimension = args['board']['dimension']
             self.turn = args['turn']
             self.grid = args['board']['grid']
+            self.all_blocks = args['blocks']
             self.blocks = args['blocks'][self.my_number]
             self.bonus_squares = args['board']['bonus_squares']
 
