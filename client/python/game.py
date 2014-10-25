@@ -49,7 +49,6 @@ class Game:
 
     def __init__(self, args):
         self.interpret_data(args)
-        util.run_search_fn(util.memoize(self.find_move))
 
     # find_move is your place to start. When it's your turn,
     # find_move will be called and you must return where to go.
@@ -208,6 +207,9 @@ class Game:
 
         if (('move' in args) and (args['move'] == 1)):
             send_command(" ".join(str(x) for x in self.find_move()))
+
+        if self.is_my_turn():
+            util.run_search_fn(self.grid, util.memoize(self.find_move))
 
     def is_my_turn(self):
         return self.turn == self.my_number
