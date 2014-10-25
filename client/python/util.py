@@ -2,7 +2,7 @@ from threading import Thread
 from time import time
 
 class ContinuousThread(Thread):
-    def __init__(self, grid, timeout=10, target=None, group=None, name=None, args=(), kwargs={}):
+    def __init__(self, game, timeout=10, target=None, group=None, name=None, args=(), kwargs={}):
         self._timeout = timeout
         self._target = target
         self._args = args
@@ -25,10 +25,11 @@ class ContinuousThread(Thread):
             return self._most_recent_val
             
         except AttributeError:
-            first_legal_move = grid.
+            first_legal_move = game.get_legal_moves(yield_first=True)
+            return first_legal_move
     
-def run_search_function(search_fn, timeout=10):
-    eval_t = ContinuousThread(grid, timeout=timeout, target = search_fn, kwargs={'depth': depth})
+def run_search_function(game, search_fn, timeout=10):
+    eval_t = ContinuousThread(game, timeout=timeout, target = search_fn, kwargs={'depth': depth})
 
     eval_t.setDaemon(True)
     eval_t.start()

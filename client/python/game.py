@@ -214,7 +214,7 @@ class Game:
             send_command(" ".join(str(x) for x in self.find_move()))
 
         if self.is_my_turn():
-            util.run_search_fn(self.grid, util.memoize(self.find_move))
+            util.run_search_fn(self, util.memoize(self.find_move))
 
     def is_my_turn(self):
         return self.turn == self.my_number
