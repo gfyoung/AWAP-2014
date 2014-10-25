@@ -13,6 +13,9 @@ import fileinput
 import threading
 import json
 
+import logging
+logging.basicConfig()
+
 SOCKET_HOST = 'game.acmalgo.com'
 SOCKET_PORT = 8080
 
