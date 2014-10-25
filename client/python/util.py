@@ -2,22 +2,22 @@ from threading import Thread
 from time import time
 
 class ContinuousThread(Thread):
-    def __init__(self, grid, timeout=5, target=None, group=None, name=None, args=(), kwargs={}):
+    def __init__(self, grid, timeout=10, target=None, group=None, name=None, args=(), kwargs={}):
         self._timeout = timeout
         self._target = target
         self._args = args
-        self._kwargs = kwargs
+        self._kwargs = kwargsw
         Thread.__init__(self, args=args, kwargs=kwargs, group=group, target=target, name=name)
 
     def run(self):
         depth = 1
 
-        timeout = self._timeout**(1/2.0)
+        timeout = self._timeout**(0.5)
         end_time = time() + timeout
         
         while time() < end_time:
             self._kwargs['depth'] = depth
-            self._most_recent_val = self._target(*self._args, **self._kwargs)
+            self._most_recent_val = self._target(*self._args, **self._kwargs)    
             depth += 1
 
     def get_most_recent_val(self):
@@ -27,8 +27,8 @@ class ContinuousThread(Thread):
         except AttributeError:
             first_legal_move = grid.
     
-def run_search_function(search_fn, timeout = 5):
-    eval_t = ContinuousThread(grid, timeout = timeout, target = search_fn, kwargs = {'depth': depth})
+def run_search_function(search_fn, timeout=10):
+    eval_t = ContinuousThread(grid, timeout=timeout, target = search_fn, kwargs={'depth': depth})
 
     eval_t.setDaemon(True)
     eval_t.start()

@@ -123,18 +123,20 @@ class Game:
         
         return score
         
-    def find_move(self, depth, turn=self.turn, grid=self.grid, alpha=None, beta=None, starting=True):
-        assert depth >= 1, "Find Move Uses Alpha-Beta and Requires a Positive Depth"
-        
+    def find_move(self, depth, turn=self.turn, grid=self.grid, alpha=None, beta=None, starting=True, maximizer=self.turn):       
         if starting:
             alpha, beta = (-float('inf'), float('inf'))
 
         if self.is_terminal(depth, turn, grid):
             return self.evaluate(turn, grid)
-      
-        for move, new_grid in get_legal_moves(turn, grid):
-            new_val = -1 * find_move(depth - 1, (turn + 1)%4, new_grid, -beta, -alpha, False)
 
+        for move, new_grid in get_legal_moves(turn, grid):
+            if turn = maximizer or turn == (maximizer - 1)%4:
+                new_val = -1 * find_move(depth - 1, (turn + 1)%4, new_grid, -beta, -alpha, False, maximizer)
+            
+            else:
+                new_val = find_move(depth - 1, (turn + 1)%4, new_grid, alpha, beta, False, maximizer)
+            
             if new_val > alpha:
                 alpha = new_val
                 next_move = move
