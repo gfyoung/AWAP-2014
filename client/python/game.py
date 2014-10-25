@@ -102,7 +102,7 @@ class Game:
             occupied_point = ref_point + offset
             new_grid[occupied_point.y][occupied_point.x] = turn    
         
-        return move, new_grid
+        return new_grid
  
     def is_game_over(self, turn=None, grid=None):
         if turn is None:
@@ -171,7 +171,9 @@ class Game:
         if self.is_terminal(depth, turn, grid):
             return self.evaluate(turn, grid)
 
-        for move, new_grid in self.get_legal_moves(turn, grid):
+        for move in self.get_legal_moves(turn, grid):
+            new_grid = self.do_move(move, turn, grid)
+            
             if turn == maximizer or turn == (maximizer - 1)%4:
                 new_val = -1 * self.find_move(depth - 1, (turn + 1)%4, new_grid, -beta, -alpha, False, maximizer)
             
