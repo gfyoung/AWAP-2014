@@ -3,7 +3,7 @@
 # Moves via stdout in the form of "# # # #" (block index, # rotations, x, y) #
 # Important function is find_move, which should contain the main AI          #
 ##############################################################################
-print "TROLL LOL"
+print "TROLL LOL LOL LOL"
 
 import sys
 import json
