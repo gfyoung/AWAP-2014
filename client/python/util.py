@@ -29,7 +29,7 @@ class ContinuousThread(Thread):
             return first_legal_move
     
 def run_search_function(game, search_fn, timeout=10):
-    eval_t = ContinuousThread(game, timeout=timeout, target = search_fn, kwargs={'depth': depth})
+    eval_t = ContinuousThread(game, timeout=timeout, target = search_fn)
 
     eval_t.setDaemon(True)
     eval_t.start()
