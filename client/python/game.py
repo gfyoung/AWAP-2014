@@ -74,7 +74,7 @@ class Game:
                 for rotations in xrange(4):
                     new_block = self.rotate_block(block, rotations)
 
-                    if self.can_place(new_block, Point(x, y)):
+                    if self.can_place(new_block, Point(x, y), turn, grid):
                         no_legal_moves = False
                         yield (index, rotations, x, y)
 
