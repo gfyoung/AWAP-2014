@@ -251,9 +251,7 @@ class Game:
 
         for x in xrange(len(self.all_blocks)):
             for y in xrange(len(self.all_blocks[x])):
-                self.all_blocks[x][y] = [Point(offset) for offset in self.all_blocks[x][y] if not isinstance(offset, Point)]
-
-                assert len(self.all_blocks[x][y]) == 0
+                self.all_blocks[x][y] = [Point(offset) for offset in self.all_blocks[x][y]]
 
                 assert type(self.all_blocks[x][y][0].x) == int, "Test"
                 assert type(self.all_blocks[x][y][0].y) == int, "Test 2"
