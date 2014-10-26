@@ -71,7 +71,7 @@ class Game:
                 for rotations in xrange(4):
                     new_block = self.rotate_block(block, rotations)
 
-                    if self.can_place(new_block, Point(x, y)):
+                    if self.can_place(new_block, Point(1, 2)):
                         no_legal_moves = False
                         yield (index, rotations, x, y)
 
@@ -205,7 +205,7 @@ class Game:
         corner = corners[turn]
 
         for offset in block:
-            p = point + offset[0]
+            p = point + offset
             x = p.x
             y = p.y
             if (x > N or x < 0 or y > N or y < 0 or grid[x][y] != -1 or
