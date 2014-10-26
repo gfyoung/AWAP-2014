@@ -64,7 +64,7 @@ class Game:
             grid = self.grid
 
         for index, block in enumerate(self.all_blocks[turn]):
-            self.all_blocks[turn][index] = [Point(offset) for offset in block]
+            self.all_blocks[turn][index] = [Point(offset[0], offset[1]) for offset in block]
 
         for index, block in enumerate(self.all_blocks[turn]):
             for i in xrange(0, N * N):
@@ -208,7 +208,7 @@ class Game:
         corner = corners[turn]
 
         for offset in block:
-            p = point + Point(offset)
+            p = point + offset
             x = p.x
             y = p.y
             if (x > N or x < 0 or y > N or y < 0 or grid[x][y] != -1 or
