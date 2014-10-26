@@ -64,6 +64,8 @@ class Game:
             grid = self.grid
 
         for index, block in enumerate(self.all_blocks[turn]):
+            self.all_blocks[index] = [Point(offset) for offset in block]
+            
             for i in xrange(0, N * N):
                 x = i / N
                 y = i % N
@@ -246,15 +248,7 @@ class Game:
             self.turn = args['turn']
             self.grid = args['board']['grid']
             self.all_blocks = args['blocks']
-            self.blocks = args['blocks'][self.my_number]
             self.bonus_squares = {tuple(coords) for coords in args['board']['bonus_squares']}
-
-            print args['blocks']
-
-            raise
-        
-            for index, block in enumerate(self.blocks):
-                self.blocks[index] = [Point(offset) for offset in block]
 
         if (('move' in args) and (args['move'] == 1)):
             send_command(" ".join(str(x) for x in util.run_search_function(self, util.memoize(self.find_move))))
