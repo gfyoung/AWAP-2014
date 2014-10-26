@@ -240,7 +240,8 @@ class Game:
 
         if 'number' in args:
             self.my_number = args['number']
-
+            assert type(self.my_number) != int
+            
         if 'board' in args:
             self.dimension = args['board']['dimension']
             self.turn = args['turn']
