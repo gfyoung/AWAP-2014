@@ -240,13 +240,15 @@ class Game:
 
         if 'number' in args:
             self.my_number = args['number']
-            assert type(self.my_number) != int
             
         if 'board' in args:
             self.dimension = args['board']['dimension']
             self.turn = args['turn']
             self.grid = args['board']['grid']
-            self.all_blocks = args['blocks']
+            self.all_blocks = args['blocks'][:]
+
+            assert type(self.all_blocks) != list
+            
             self.bonus_squares = {tuple(coords) for coords in args['board']['bonus_squares']}
 
         for x in xrange(len(self.all_blocks)):
