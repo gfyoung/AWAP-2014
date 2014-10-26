@@ -246,13 +246,15 @@ class Game:
             self.turn = args['turn']
             self.grid = args['board']['grid']
             self.all_blocks = args['blocks'][:]
-
-            assert type(self.all_blocks) != list
             
             self.bonus_squares = {tuple(coords) for coords in args['board']['bonus_squares']}
 
         for x in xrange(len(self.all_blocks)):
+            assert type(self.all_blocks[x]) == list
+            
             for y, block in enumerate(self.all_blocks[x]):
+                assert type(self.all_blocks[x][y]) != dict
+                
                 self.all_blocks[x][y] = [Point(offset['x'], offset['y']) for offset in block]
                 assert type(self.all_blocks[x][y][0].x) == type(self.all_blocks[x][y][0].y) == int, "Test"
                 
