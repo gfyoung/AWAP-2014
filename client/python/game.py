@@ -250,7 +250,7 @@ class Game:
 
         for x in xrange(len(self.all_blocks)):
             for y, block in enumerate(self.all_blocks[x]):
-                self.all_blocks[x][y] = [Point(offset['x'][0], offset['x'][2]) for offset in block]
+                self.all_blocks[x][y] = [Point(offset['x'], offset['y']) for offset in block]
                 assert type(self.all_blocks[x][y][0].x) == type(self.all_blocks[x][y][0].y) == int, "Test"
                 
         if (('move' in args) and (args['move'] == 1)):
