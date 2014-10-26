@@ -253,7 +253,8 @@ class Game:
             for y in xrange(len(self.all_blocks[x])):
                 self.all_blocks[x][y] = [Point(offset) for offset in self.all_blocks[x][y]]
 
-                assert type(self.all_blocks[x][y][0].x) == type(self.all_blocks[x][y][0].y) == int, "Test"
+                assert type(self.all_blocks[x][y][0].x) == int, "Test"
+                assert type(self.all_blocks[x][y][0].y) == int, "Test 2"
                 
         if (('move' in args) and (args['move'] == 1)):
             send_command(" ".join(str(x) for x in util.run_search_function(self, util.memoize(self.find_move))))
