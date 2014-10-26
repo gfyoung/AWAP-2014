@@ -14,6 +14,9 @@ class Point:
 
     # Can be instantiated as either Point(x, y) or Point({'x': x, 'y': y})
     def __init__(self, x=0, y=0):
+        if isinstance(x, Point):
+            self = x
+            
         if isinstance(x, dict):
             self.x = x['x']
             self.y = x['y']
@@ -252,8 +255,6 @@ class Game:
         for x in xrange(len(self.all_blocks)):
             for y in xrange(len(self.all_blocks[x])):
                 self.all_blocks[x][y] = [Point(offset) for offset in self.all_blocks[x][y]]
-
-                assert not isinstance(self.all_blocks[x][y][0].x, Point), 'WTF is going on!?'
                 
                 self.all_blocks[x][y][0].x * 9000
                 self.all_blocks[x][y][0].y * 9001
