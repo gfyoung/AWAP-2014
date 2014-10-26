@@ -250,11 +250,12 @@ class Game:
             self.bonus_squares = {tuple(coords) for coords in args['board']['bonus_squares']}
 
         for x in xrange(len(self.all_blocks)):
-            for y, block in enumerate(self.all_blocks[x]):
-                assert not isinstance(block, dict)
+            for y in xrange(len(self.all_blocks[y])):
+                for z, block in enumerate(self.all_blocks[x][y]):
+                    assert not isinstance(block, dict)
                 
-                self.all_blocks[x][y] = [Point(offset['x'], offset['y']) for offset in block]
-                assert type(self.all_blocks[x][y][0].x) == type(self.all_blocks[x][y][0].y) == int, "Test"
+                    self.all_blocks[x][y] = [Point(offset['x'], offset['y']) for offset in block]
+                    assert type(self.all_blocks[x][y][0].x) == type(self.all_blocks[x][y][0].y) == int, "Test"
                 
         if (('move' in args) and (args['move'] == 1)):
             send_command(" ".join(str(x) for x in util.run_search_function(self, util.memoize(self.find_move))))
