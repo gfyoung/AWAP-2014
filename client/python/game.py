@@ -64,9 +64,6 @@ class Game:
             grid = self.grid
 
         for index, block in enumerate(self.all_blocks[turn]):
-            self.all_blocks[turn][index] = [Point(offset[0], offset[1]) for offset in block]
-
-        for index, block in enumerate(self.all_blocks[turn]):
             for i in xrange(0, N * N):
                 x = i / N
                 y = i % N
@@ -252,6 +249,10 @@ class Game:
             self.blocks = args['blocks'][self.my_number]
             self.bonus_squares = {tuple(coords) for coords in args['board']['bonus_squares']}
 
+            print args['blocks']
+
+            raise
+        
             for index, block in enumerate(self.blocks):
                 self.blocks[index] = [Point(offset) for offset in block]
 
