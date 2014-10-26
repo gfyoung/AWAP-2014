@@ -62,7 +62,10 @@ class Game:
 
         if grid is None:
             grid = self.grid
-            
+
+        for index, block in enumerate(self.all_blocks[turn]):
+            self.blocks[index] = [Point(offset) for offset in block]
+
         for index, block in enumerate(self.all_blocks[turn]):
             for i in xrange(0, N * N):
                 x = i / N
