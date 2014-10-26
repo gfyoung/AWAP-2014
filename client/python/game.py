@@ -248,7 +248,7 @@ class Game:
             self.all_blocks = args['blocks']
             self.bonus_squares = {tuple(coords) for coords in args['board']['bonus_squares']}
 
-        for x in xrange(len(self.all_blocks)):
+##        for x in xrange(len(self.all_blocks)):
 ##            for y, block in enumerate(self.all_blocks[x]):
 ##                self.all_blocks[x][y] = [Point(offset) for offset in block]
                 
