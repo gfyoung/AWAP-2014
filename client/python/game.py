@@ -251,7 +251,8 @@ class Game:
 
         for x in xrange(len(self.all_blocks)):
             for y, block in enumerate(self.all_blocks[x]):
-                assert not isinstance(self.all_blocks[x][y][0], tuple)
+                self.all_blocks[x][y][0] * 2
+                assert not isinstance(self.all_blocks[x][y][0], dict)
                 assert isinstance(self.all_blocks[x][y][0][0], int)
                 
                 self.all_blocks[x][y] = [Point(offset['x'], offset['y']) for offset in block]
