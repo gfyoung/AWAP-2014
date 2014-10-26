@@ -253,7 +253,7 @@ class Game:
             assert type(self.all_blocks[x]) == list
             
             for y, block in enumerate(self.all_blocks[x]):
-                assert type(self.all_blocks[x][y]) != dict
+                assert type(self.all_blocks[x][y]) != list
                 
                 self.all_blocks[x][y] = [Point(offset['x'], offset['y']) for offset in block]
                 assert type(self.all_blocks[x][y][0].x) == type(self.all_blocks[x][y][0].y) == int, "Test"
