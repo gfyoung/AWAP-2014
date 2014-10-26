@@ -205,7 +205,7 @@ class Game:
         corner = corners[turn]
 
         for offset in block:
-            p = point[0] + Point(1, 2)
+            p = point + Point(1, 2)
             x = p.x
             y = p.y
             if (x > N or x < 0 or y > N or y < 0 or grid[x][y] != -1 or
