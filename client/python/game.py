@@ -250,7 +250,7 @@ class Game:
             self.bonus_squares = {tuple(coords) for coords in args['board']['bonus_squares']}
 
         for x in xrange(len(self.all_blocks)):
-            for y in xrange(len(self.all_blocks[y])):
+            for y in xrange(len(self.all_blocks[x])):
                 for z, block in enumerate(self.all_blocks[x][y]):
                     assert not isinstance(block, dict)
                 
