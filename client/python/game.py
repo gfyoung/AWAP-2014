@@ -66,20 +66,21 @@ class Game:
         if grid is None:
             grid = self.grid
 
-        for index, block in enumerate(self.all_blocks[turn]):            
-            for i in xrange(0, N * N):
-                x = i / N
-                y = i % N
+        for x_index in xrange(len(self.all_blocks[turn])):
+            for y_index, block in enumerate(self.all_blocks[turn][x_index]):
+                for i in xrange(0, N * N):
+                    x = i / N
+                    y = i % N
 
-                for rotations in xrange(4):
-                    new_block = self.rotate_block(block, rotations)
+                    for rotations in xrange(4):
+                        new_block = self.rotate_block(block, rotations)
 
-                    if self.can_place(new_block, Point(x, y), turn, grid):
-                        no_legal_moves = False
-                        yield (index, rotations, x, y)
+                        if self.can_place(new_block, Point(x, y), turn, grid):
+                            no_legal_moves = False
+                            yield (y_index, rotations, x, y)
 
-                        if yield_first:
-                            break
+                            if yield_first:
+                                break
 
         if no_legal_moves:
             yield False
