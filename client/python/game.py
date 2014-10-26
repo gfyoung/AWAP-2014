@@ -253,6 +253,8 @@ class Game:
             for y in xrange(len(self.all_blocks[x])):
                 self.all_blocks[x][y] = [Point(offset) for offset in self.all_blocks[x][y]]
 
+                assert not isinstance(self.all_blocks[x][y][0].x, Point), 'WTF is going on!?'
+                
                 self.all_blocks[x][y][0].x * 9000
                 self.all_blocks[x][y][0].y * 9001
                 
